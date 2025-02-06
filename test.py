@@ -125,9 +125,9 @@ if __name__ == '__main__':
 
     print('Loading weights from checkpoint (' + args.trained_model + ')')
     if args.cuda:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model)))
+        net.load_state_dict(copyStateDict(torch.load(args.trained_model,weights_only=True)))
     else:
-        net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location='cpu')))
+        net.load_state_dict(copyStateDict(torch.load(args.trained_model, map_location='cpu',weights_only=True)))
 
     if args.cuda:
         net = net.cuda()
@@ -143,11 +143,11 @@ if __name__ == '__main__':
         refine_net = RefineNet()
         print('Loading weights of refiner from checkpoint (' + args.refiner_model + ')')
         if args.cuda:
-            refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model)))
+            refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model,weights_only=True)))
             refine_net = refine_net.cuda()
             refine_net = torch.nn.DataParallel(refine_net)
         else:
-            refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model, map_location='cpu')))
+            refine_net.load_state_dict(copyStateDict(torch.load(args.refiner_model, map_location='cpu',weights_only=True)))
 
         refine_net.eval()
         args.poly = True
